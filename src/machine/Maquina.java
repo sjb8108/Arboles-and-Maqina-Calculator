@@ -61,14 +61,19 @@ public class Maquina {
     /** the terminating character when reading machine instructions from user (not file) */
     private final static String EOF = ".";
 
-    // TODO
+    private SymbolTable symbolTable;
+    private InstructionStack instructionStack;
+
+    private List instructionList;
 
     /**
      * Create a new machine, with an empty symbol table, instruction stack, and
      * list of instructions.
      */
     public Maquina() {
-        // TODO
+        this.symbolTable = new  SymbolTable();
+        this.instructionStack = new  InstructionStack();
+        this.instructionList = new  ArrayList<>();
     }
 
     /**
@@ -77,8 +82,7 @@ public class Maquina {
      * @return the stack
      */
     public InstructionStack getInstructionStack() {
-        // TODO
-        return null;
+        return this.instructionStack;
     }
 
     /**
@@ -87,8 +91,7 @@ public class Maquina {
      * @return the symbol table
      */
     public SymbolTable getSymbolTable() {
-        // TODO
-        return null;
+        return this.symbolTable;
     }
 
 

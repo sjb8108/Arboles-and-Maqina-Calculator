@@ -29,11 +29,13 @@ public class Push implements Instruction {
      */
     @Override
     public void execute() {
+
         this.stack.push(this.value);
     }
 
     @Override
     public String toString() {
+
         return Maquina.PUSH + " " + this.value;
     }
 }
