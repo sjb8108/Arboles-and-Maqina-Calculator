@@ -128,90 +128,89 @@ public class TestInstructions {
                 "\tEMPTY" + System.lineSeparator();
         assertEquals(expected, machine.getInstructionStack().toString());
     }
+    @Test
+    @Order(4)
+    public void testLoad() {
+        Maquina machine = new Maquina();
+
+        Push push10 = new Push(10, machine);
+        Push push20 = new Push(20, machine);
+        Push push30 = new Push(30, machine);
+
+        push10.execute();
+        push20.execute();
+        push30.execute();
+
+        Store storeX = new Store("x", machine);
+        Store storeY = new Store("y", machine);
+        Store storeZ = new Store("z", machine);
+
+        storeX.execute();
+        storeY.execute();
+        storeZ.execute();
+
+        assertEquals(3, machine.getSymbolTable().size());
+        String expected = "x: 30" + System.lineSeparator() +
+                "y: 20" + System.lineSeparator() +
+                "z: 10" + System.lineSeparator();
+        assertEquals(expected, machine.getSymbolTable().toString());
+
+        Load loadZ = new Load("z", machine);
+        Load loadY = new Load("y", machine);
+        Load loadX = new Load("x", machine);
+
+        loadX.execute();
+        loadY.execute();
+        loadZ.execute();
+
+        assertEquals("LOAD x", loadX.toString());
+        assertEquals("LOAD y", loadY.toString());
+        assertEquals("LOAD z", loadZ.toString());
+
+        assertEquals(3, machine.getInstructionStack().size());
+        expected = "(MAQ) Instruction stack:" + System.lineSeparator() +
+                "\t0: 10" + System.lineSeparator() +
+                "\t1: 20" + System.lineSeparator() +
+                "\t2: 30" + System.lineSeparator();
+        assertEquals(expected, machine.getInstructionStack().toString());
+    }
+
+    @Test
+    @Order(5)
+    public void testNegate() {
+        Maquina machine = new Maquina();
+
+        Push push10 = new Push(10, machine);
+        Push push20 = new Push(-20, machine);
+        Push push30 = new Push(30, machine);
+
+        push10.execute();
+        push20.execute();
+        push30.execute();
+
+        Negate neg30 = new Negate(machine);
+        assertEquals("NEG", neg30.toString());
+        neg30.execute();
+
+        assertEquals(3, machine.getInstructionStack().size());
+        String expected = "(MAQ) Instruction stack:" + System.lineSeparator() +
+                "\t0: -30" + System.lineSeparator() +
+                "\t1: -20" + System.lineSeparator() +
+                "\t2: 10" + System.lineSeparator();
+        assertEquals(expected, machine.getInstructionStack().toString());
+
+        machine.getInstructionStack().pop();
+        Negate neg20 = new Negate(machine);
+        assertEquals("NEG", neg20.toString());
+        neg20.execute();
+
+        assertEquals(2, machine.getInstructionStack().size());
+        expected = "(MAQ) Instruction stack:" + System.lineSeparator() +
+                "\t0: 20" + System.lineSeparator() +
+                "\t1: 10" + System.lineSeparator();
+        assertEquals(expected, machine.getInstructionStack().toString());
+    }
 }
-//    @Test
-//    @Order(4)
-//    public void testLoad() {
-//        Maquina machine = new Maquina();
-//
-//        Push push10 = new Push(10, machine);
-//        Push push20 = new Push(20, machine);
-//        Push push30 = new Push(30, machine);
-//
-//        push10.execute();
-//        push20.execute();
-//        push30.execute();
-//
-//        Store storeX = new Store("x", machine);
-//        Store storeY = new Store("y", machine);
-//        Store storeZ = new Store("z", machine);
-//
-//        storeX.execute();
-//        storeY.execute();
-//        storeZ.execute();
-//
-//        assertEquals(3, machine.getSymbolTable().size());
-//        String expected = "x: 30" + System.lineSeparator() +
-//                "y: 20" + System.lineSeparator() +
-//                "z: 10" + System.lineSeparator();
-//        assertEquals(expected, machine.getSymbolTable().toString());
-//
-//        Load loadZ = new Load("z", machine);
-//        Load loadY = new Load("y", machine);
-//        Load loadX = new Load("x", machine);
-//
-//        loadX.execute();
-//        loadY.execute();
-//        loadZ.execute();
-//
-//        assertEquals("LOAD x", loadX.toString());
-//        assertEquals("LOAD y", loadY.toString());
-//        assertEquals("LOAD z", loadZ.toString());
-//
-//        assertEquals(3, machine.getInstructionStack().size());
-//        expected = "(MAQ) Instruction stack:" + System.lineSeparator() +
-//                "\t0: 10" + System.lineSeparator() +
-//                "\t1: 20" + System.lineSeparator() +
-//                "\t2: 30" + System.lineSeparator();
-//        assertEquals(expected, machine.getInstructionStack().toString());
-//    }
-//
-//    @Test
-//    @Order(5)
-//    public void testNegate() {
-//        Maquina machine = new Maquina();
-//
-//        Push push10 = new Push(10, machine);
-//        Push push20 = new Push(-20, machine);
-//        Push push30 = new Push(30, machine);
-//
-//        push10.execute();
-//        push20.execute();
-//        push30.execute();
-//
-//        Negate neg30 = new Negate(machine);
-//        assertEquals("NEG", neg30.toString());
-//        neg30.execute();
-//
-//        assertEquals(3, machine.getInstructionStack().size());
-//        String expected = "(MAQ) Instruction stack:" + System.lineSeparator() +
-//                "\t0: -30" + System.lineSeparator() +
-//                "\t1: -20" + System.lineSeparator() +
-//                "\t2: 10" + System.lineSeparator();
-//        assertEquals(expected, machine.getInstructionStack().toString());
-//
-//        machine.getInstructionStack().pop();
-//        Negate neg20 = new Negate(machine);
-//        assertEquals("NEG", neg20.toString());
-//        neg20.execute();
-//
-//        assertEquals(2, machine.getInstructionStack().size());
-//        expected = "(MAQ) Instruction stack:" + System.lineSeparator() +
-//                "\t0: 20" + System.lineSeparator() +
-//                "\t1: 10" + System.lineSeparator();
-//        assertEquals(expected, machine.getInstructionStack().toString());
-//    }
-//
 //    @Test
 //    @Order(6)
 //    public void testSquareRoot() {
