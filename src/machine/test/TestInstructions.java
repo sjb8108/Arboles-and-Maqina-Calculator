@@ -90,45 +90,45 @@ public class TestInstructions {
                 "\t0: 10" + System.lineSeparator();
         assertEquals(expectedStack, machine.getInstructionStack().toString());
     }
-}
 
-//    @Test
-//    @Order(3)
-//    public void testStore() {
-//        Maquina machine = new Maquina();
-//
-//        Push push10 = new Push(10, machine);
-//        Push push20 = new Push(20, machine);
-//        Push push30 = new Push(30, machine);
-//
-//        push10.execute();
-//        push20.execute();
-//        push30.execute();
-//
-//        Store storeX = new Store("x", machine);
-//        Store storeY = new Store("y", machine);
-//        Store storeZ = new Store("z", machine);
-//
-//        assertEquals("STORE x", storeX.toString());
-//        assertEquals("STORE y", storeY.toString());
-//        assertEquals("STORE z", storeZ.toString());
-//
-//        storeX.execute();
-//        storeY.execute();
-//        storeZ.execute();
-//
-//        assertEquals(3, machine.getSymbolTable().size());
-//        String expected = "x: 30" + System.lineSeparator() +
-//                "y: 20" + System.lineSeparator() +
-//                "z: 10" + System.lineSeparator();
-//        assertEquals(expected, machine.getSymbolTable().toString());
-//
-//        assertEquals(0, machine.getInstructionStack().size());
-//        expected = "(MAQ) Instruction stack:" + System.lineSeparator() +
-//                "\tEMPTY" + System.lineSeparator();
-//        assertEquals(expected, machine.getInstructionStack().toString());
-//    }
-//
+
+    @Test
+    @Order(3)
+    public void testStore() {
+        Maquina machine = new Maquina();
+
+        Push push10 = new Push(10, machine);
+        Push push20 = new Push(20, machine);
+        Push push30 = new Push(30, machine);
+
+        push10.execute();
+        push20.execute();
+        push30.execute();
+
+        Store storeX = new Store("x", machine);
+        Store storeY = new Store("y", machine);
+        Store storeZ = new Store("z", machine);
+
+        assertEquals("STORE x", storeX.toString());
+        assertEquals("STORE y", storeY.toString());
+        assertEquals("STORE z", storeZ.toString());
+
+        storeX.execute();
+        storeY.execute();
+        storeZ.execute();
+
+        assertEquals(3, machine.getSymbolTable().size());
+        String expected = "x: 30" + System.lineSeparator() +
+                "y: 20" + System.lineSeparator() +
+                "z: 10" + System.lineSeparator();
+        assertEquals(expected, machine.getSymbolTable().toString());
+
+        assertEquals(0, machine.getInstructionStack().size());
+        expected = "(MAQ) Instruction stack:" + System.lineSeparator() +
+                "\tEMPTY" + System.lineSeparator();
+        assertEquals(expected, machine.getInstructionStack().toString());
+    }
+}
 //    @Test
 //    @Order(4)
 //    public void testLoad() {
