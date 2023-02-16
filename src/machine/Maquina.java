@@ -109,8 +109,22 @@ public class Maquina {
         // TODO
 
         System.out.println("(MAQ) Machine instructions:");
+        while (maqIn.hasNextLine()){
+            String[] fields = maqIn.nextLine().strip().split("\\s+");
+            String instruction;
+            if (fields.length == 2){
+                instruction = fields[0] + " " + fields[1];
+                this.instructionList.add(instruction);
+            }
+            else{
+                instruction = fields[0];
+                this.instructionList.add(instruction);
+            }
+        }
+        for (int i = 0; i < this.instructionList.size(); i++){
+            System.out.println(this.instructionList.get(i));
+        }
 
-        // TODO
     }
 
     /**
