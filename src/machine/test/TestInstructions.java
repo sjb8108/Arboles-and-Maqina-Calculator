@@ -283,43 +283,43 @@ public class TestInstructions {
                 "\t0: 90" + System.lineSeparator();
         assertEquals(expected, machine.getInstructionStack().toString());
     }
+
+    @Test
+    @Order(8)
+    public void testSubtract() {
+        Maquina machine = new Maquina();
+
+        Push push10 = new Push(10, machine);
+        assertEquals("PUSH 10", push10.toString());
+        Push push20 = new Push(20, machine);
+        assertEquals("PUSH 20", push20.toString());
+        Push push60 = new Push(60, machine);
+        assertEquals("PUSH 60", push60.toString());
+
+        push10.execute();
+        push20.execute();
+        push60.execute();
+
+        Subtract sub40 = new Subtract(machine);
+        assertEquals("SUB", sub40.toString());
+        sub40.execute();
+
+        assertEquals(2, machine.getInstructionStack().size());
+        String expected = "(MAQ) Instruction stack:" + System.lineSeparator() +
+                "\t0: -40" + System.lineSeparator() +
+                "\t1: 10" + System.lineSeparator();
+        assertEquals(expected, machine.getInstructionStack().toString());
+
+        Subtract sub50 = new Subtract(machine);
+        assertEquals("SUB", sub50.toString());
+        sub50.execute();
+
+        assertEquals(1, machine.getInstructionStack().size());
+        expected = "(MAQ) Instruction stack:" + System.lineSeparator() +
+                "\t0: 50" + System.lineSeparator();
+        assertEquals(expected, machine.getInstructionStack().toString());
+    }
 }
-//    @Test
-//    @Order(8)
-//    public void testSubtract() {
-//        Maquina machine = new Maquina();
-//
-//        Push push10 = new Push(10, machine);
-//        assertEquals("PUSH 10", push10.toString());
-//        Push push20 = new Push(20, machine);
-//        assertEquals("PUSH 20", push20.toString());
-//        Push push60 = new Push(60, machine);
-//        assertEquals("PUSH 60", push60.toString());
-//
-//        push10.execute();
-//        push20.execute();
-//        push60.execute();
-//
-//        Subtract sub40 = new Subtract(machine);
-//        assertEquals("SUB", sub40.toString());
-//        sub40.execute();
-//
-//        assertEquals(2, machine.getInstructionStack().size());
-//        String expected = "(MAQ) Instruction stack:" + System.lineSeparator() +
-//                "\t0: -40" + System.lineSeparator() +
-//                "\t1: 10" + System.lineSeparator();
-//        assertEquals(expected, machine.getInstructionStack().toString());
-//
-//        Subtract sub50 = new Subtract(machine);
-//        assertEquals("SUB", sub50.toString());
-//        sub50.execute();
-//
-//        assertEquals(1, machine.getInstructionStack().size());
-//        expected = "(MAQ) Instruction stack:" + System.lineSeparator() +
-//                "\t0: 50" + System.lineSeparator();
-//        assertEquals(expected, machine.getInstructionStack().toString());
-//    }
-//
 //    @Test
 //    @Order(9)
 //    public void testMultiply() {
