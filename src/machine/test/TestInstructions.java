@@ -128,6 +128,7 @@ public class TestInstructions {
                 "\tEMPTY" + System.lineSeparator();
         assertEquals(expected, machine.getInstructionStack().toString());
     }
+
     @Test
     @Order(4)
     public void testLoad() {
@@ -210,43 +211,43 @@ public class TestInstructions {
                 "\t1: 10" + System.lineSeparator();
         assertEquals(expected, machine.getInstructionStack().toString());
     }
+
+    @Test
+    @Order(6)
+    public void testSquareRoot() {
+        Maquina machine = new Maquina();
+
+        Push push30 = new Push(30, machine);
+        Push push112 = new Push(112, machine);
+        Push push25 = new Push(25, machine);
+
+        push30.execute();
+        push112.execute();
+        push25.execute();
+
+        SquareRoot sqrt5 = new SquareRoot(machine);
+        assertEquals("SQRT", sqrt5.toString());
+        sqrt5.execute();
+
+        assertEquals(3, machine.getInstructionStack().size());
+        String expected = "(MAQ) Instruction stack:" + System.lineSeparator() +
+                "\t0: 5" + System.lineSeparator() +
+                "\t1: 112" + System.lineSeparator() +
+                "\t2: 30" + System.lineSeparator();
+        assertEquals(expected, machine.getInstructionStack().toString());
+
+        machine.getInstructionStack().pop();
+        SquareRoot sqrt10 = new SquareRoot(machine);
+        assertEquals("SQRT", sqrt10.toString());
+        sqrt5.execute();
+
+        assertEquals(2, machine.getInstructionStack().size());
+        expected = "(MAQ) Instruction stack:" + System.lineSeparator() +
+                "\t0: 10" + System.lineSeparator() +
+                "\t1: 30" + System.lineSeparator();
+        assertEquals(expected, machine.getInstructionStack().toString());
+    }
 }
-//    @Test
-//    @Order(6)
-//    public void testSquareRoot() {
-//        Maquina machine = new Maquina();
-//
-//        Push push30 = new Push(30, machine);
-//        Push push112 = new Push(112, machine);
-//        Push push25 = new Push(25, machine);
-//
-//        push30.execute();
-//        push112.execute();
-//        push25.execute();
-//
-//        SquareRoot sqrt5 = new SquareRoot(machine);
-//        assertEquals("SQRT", sqrt5.toString());
-//        sqrt5.execute();
-//
-//        assertEquals(3, machine.getInstructionStack().size());
-//        String expected = "(MAQ) Instruction stack:" + System.lineSeparator() +
-//                "\t0: 5" + System.lineSeparator() +
-//                "\t1: 112" + System.lineSeparator() +
-//                "\t2: 30" + System.lineSeparator();
-//        assertEquals(expected, machine.getInstructionStack().toString());
-//
-//        machine.getInstructionStack().pop();
-//        SquareRoot sqrt10 = new SquareRoot(machine);
-//        assertEquals("SQRT", sqrt10.toString());
-//        sqrt5.execute();
-//
-//        assertEquals(2, machine.getInstructionStack().size());
-//        expected = "(MAQ) Instruction stack:" + System.lineSeparator() +
-//                "\t0: 10" + System.lineSeparator() +
-//                "\t1: 30" + System.lineSeparator();
-//        assertEquals(expected, machine.getInstructionStack().toString());
-//    }
-//
 //    @Test
 //    @Order(7)
 //    public void testAdd() {
