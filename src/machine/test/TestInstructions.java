@@ -319,43 +319,43 @@ public class TestInstructions {
                 "\t0: 50" + System.lineSeparator();
         assertEquals(expected, machine.getInstructionStack().toString());
     }
+
+    @Test
+    @Order(9)
+    public void testMultiply() {
+        Maquina machine = new Maquina();
+
+        Push push10 = new Push(10, machine);
+        assertEquals("PUSH 10", push10.toString());
+        Push push20 = new Push(20, machine);
+        assertEquals("PUSH 20", push20.toString());
+        Push push60 = new Push(60, machine);
+        assertEquals("PUSH 60", push60.toString());
+
+        push10.execute();
+        push20.execute();
+        push60.execute();
+
+        Multiply mul1200 = new Multiply(machine);
+        assertEquals("MUL", mul1200.toString());
+        mul1200.execute();
+
+        assertEquals(2, machine.getInstructionStack().size());
+        String expected = "(MAQ) Instruction stack:" + System.lineSeparator() +
+                "\t0: 1200" + System.lineSeparator() +
+                "\t1: 10" + System.lineSeparator();
+        assertEquals(expected, machine.getInstructionStack().toString());
+
+        Multiply mul12000 = new Multiply(machine);
+        assertEquals("MUL", mul12000.toString());
+        mul12000.execute();
+
+        assertEquals(1, machine.getInstructionStack().size());
+        expected = "(MAQ) Instruction stack:" + System.lineSeparator() +
+                "\t0: 12000" + System.lineSeparator();
+        assertEquals(expected, machine.getInstructionStack().toString());
+    }
 }
-//    @Test
-//    @Order(9)
-//    public void testMultiply() {
-//        Maquina machine = new Maquina();
-//
-//        Push push10 = new Push(10, machine);
-//        assertEquals("PUSH 10", push10.toString());
-//        Push push20 = new Push(20, machine);
-//        assertEquals("PUSH 20", push20.toString());
-//        Push push60 = new Push(60, machine);
-//        assertEquals("PUSH 60", push60.toString());
-//
-//        push10.execute();
-//        push20.execute();
-//        push60.execute();
-//
-//        Multiply mul1200 = new Multiply(machine);
-//        assertEquals("MUL", mul1200.toString());
-//        mul1200.execute();
-//
-//        assertEquals(2, machine.getInstructionStack().size());
-//        String expected = "(MAQ) Instruction stack:" + System.lineSeparator() +
-//                "\t0: 1200" + System.lineSeparator() +
-//                "\t1: 10" + System.lineSeparator();
-//        assertEquals(expected, machine.getInstructionStack().toString());
-//
-//        Multiply mul12000 = new Multiply(machine);
-//        assertEquals("MUL", mul12000.toString());
-//        mul12000.execute();
-//
-//        assertEquals(1, machine.getInstructionStack().size());
-//        expected = "(MAQ) Instruction stack:" + System.lineSeparator() +
-//                "\t0: 12000" + System.lineSeparator();
-//        assertEquals(expected, machine.getInstructionStack().toString());
-//    }
-//
 //    @Test
 //    @Order(10)
 //    public void testDivide() {
