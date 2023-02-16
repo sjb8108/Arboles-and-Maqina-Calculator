@@ -6,6 +6,7 @@ import machine.Maquina;
 public class Add implements Instruction{
     private final InstructionStack stack;
     public Add(Maquina machine){
+
         this.stack = machine.getInstructionStack();
     }
     @Override

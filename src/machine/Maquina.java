@@ -115,6 +115,7 @@ public class Maquina {
             if (fields.length == 2){
                 instruction = fields[0] + " " + fields[1];
                 this.instructionList.add(instruction);
+
             }
             else{
                 instruction = fields[0];
@@ -133,13 +134,56 @@ public class Maquina {
      */
     public void execute() {
         System.out.println("(MAQ) Executing...");
-
-        // TODO
+        for (int j = 0; j < this.instructionList.size(); j++){
+            String[] instruction = this.instructionList.get(j).toString().split(" ");
+            if (instruction.length == 2){
+                String command = instruction[0];
+                if (command.equals(PUSH)){
+                    int value = Integer.valueOf(instruction[1]);
+                    new Push(value, this).execute();
+                }
+                else if (command.equals(STORE)) {
+                    String variable = instruction[1];
+                    new Store(variable, this).execute();
+                }
+                else{
+                    String variable = instruction[1];
+                    new Load(variable, this).execute();
+                }
+            }
+            else{
+                String command = instruction[0];
+                if (command.equals(ADD)){
+                    new Add(this).execute();
+                }
+                else if (command.equals(DIVIDE)) {
+                    new Divide(this).execute();
+                }
+                else if (command.equals(MODULUS)) {
+                    new Modulus(this).execute();
+                }
+                else if (command.equals(MULTIPLY)) {
+                    new Multiply(this).execute();
+                }
+                else if (command.equals(NEGATE)) {
+                    new Negate(this).execute();
+                }
+                else if (command.equals(SQUARE_ROOT)) {
+                    new SquareRoot(this).execute();
+                }
+                else if (command.equals(SUBTRACT)) {
+                    new Subtract(this).execute();
+                }
+                else {
+                    new Print(this).execute();
+                }
+            }
+        }
 
         System.out.println("(MAQ) Completed execution!");
         System.out.println("(MAQ) Symbol table:");
-
-        // TODO
+        System.out.println(this.getSymbolTable());
+        System.out.println(this.getInstructionStack());
     }
 
     /**
