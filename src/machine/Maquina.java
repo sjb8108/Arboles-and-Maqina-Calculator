@@ -16,7 +16,7 @@ import java.util.Scanner;
  * an instruction stack and symbol table.
  *
  * @author RIT CS
- * @author YOUR NAME HERE
+ * @author Scott Bullock
  */
 public class Maquina {
     /** the push instruction */
