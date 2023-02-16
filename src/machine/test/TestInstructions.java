@@ -355,76 +355,75 @@ public class TestInstructions {
                 "\t0: 12000" + System.lineSeparator();
         assertEquals(expected, machine.getInstructionStack().toString());
     }
+
+    @Test
+    @Order(10)
+    public void testDivide() {
+        Maquina machine = new Maquina();
+
+        Push push13 = new Push(13, machine);
+        assertEquals("PUSH 13", push13.toString());
+        Push push60 = new Push(60, machine);
+        assertEquals("PUSH 60", push60.toString());
+        Push push20 = new Push(20, machine);
+        assertEquals("PUSH 20", push20.toString());
+
+        push13.execute();
+        push60.execute();
+        push20.execute();
+
+        Divide div3 = new Divide(machine);
+        assertEquals("DIV", div3.toString());
+        div3.execute();
+
+        assertEquals(2, machine.getInstructionStack().size());
+        String expected = "(MAQ) Instruction stack:" + System.lineSeparator() +
+                "\t0: 3" + System.lineSeparator() +
+                "\t1: 13" + System.lineSeparator();
+        assertEquals(expected, machine.getInstructionStack().toString());
+
+        Divide div4 = new Divide(machine);
+        assertEquals("DIV", div4.toString());
+        div4.execute();
+
+        assertEquals(1, machine.getInstructionStack().size());
+        expected = "(MAQ) Instruction stack:" + System.lineSeparator() +
+                "\t0: 4" + System.lineSeparator();
+        assertEquals(expected, machine.getInstructionStack().toString());
+    }
+    @Test
+    @Order(11)
+    public void testModulus() {
+        Maquina machine = new Maquina();
+
+        Push push3 = new Push(3, machine);
+        assertEquals("PUSH 3", push3.toString());
+        Push push64 = new Push(64, machine);
+        assertEquals("PUSH 64", push64.toString());
+        Push push20 = new Push(20, machine);
+        assertEquals("PUSH 20", push20.toString());
+
+        push3.execute();
+        push64.execute();
+        push20.execute();
+
+        Modulus mod4 = new Modulus(machine);
+        assertEquals("MOD", mod4.toString());
+        mod4.execute();
+
+        assertEquals(2, machine.getInstructionStack().size());
+        String expected = "(MAQ) Instruction stack:" + System.lineSeparator() +
+                "\t0: 4" + System.lineSeparator() +
+                "\t1: 3" + System.lineSeparator();
+        assertEquals(expected, machine.getInstructionStack().toString());
+
+        Modulus mod3 = new Modulus(machine);
+        assertEquals("MOD", mod3.toString());
+        mod3.execute();
+
+        assertEquals(1, machine.getInstructionStack().size());
+        expected = "(MAQ) Instruction stack:" + System.lineSeparator() +
+                "\t0: 3" + System.lineSeparator();
+        assertEquals(expected, machine.getInstructionStack().toString());
+    }
 }
-//    @Test
-//    @Order(10)
-//    public void testDivide() {
-//        Maquina machine = new Maquina();
-//
-//        Push push13 = new Push(13, machine);
-//        assertEquals("PUSH 13", push13.toString());
-//        Push push60 = new Push(60, machine);
-//        assertEquals("PUSH 60", push60.toString());
-//        Push push20 = new Push(20, machine);
-//        assertEquals("PUSH 20", push20.toString());
-//
-//        push13.execute();
-//        push60.execute();
-//        push20.execute();
-//
-//        Divide div3 = new Divide(machine);
-//        assertEquals("DIV", div3.toString());
-//        div3.execute();
-//
-//        assertEquals(2, machine.getInstructionStack().size());
-//        String expected = "(MAQ) Instruction stack:" + System.lineSeparator() +
-//                "\t0: 3" + System.lineSeparator() +
-//                "\t1: 13" + System.lineSeparator();
-//        assertEquals(expected, machine.getInstructionStack().toString());
-//
-//        Divide div4 = new Divide(machine);
-//        assertEquals("DIV", div4.toString());
-//        div4.execute();
-//
-//        assertEquals(1, machine.getInstructionStack().size());
-//        expected = "(MAQ) Instruction stack:" + System.lineSeparator() +
-//                "\t0: 4" + System.lineSeparator();
-//        assertEquals(expected, machine.getInstructionStack().toString());
-//    }
-//
-//    @Test
-//    @Order(11)
-//    public void testModulus() {
-//        Maquina machine = new Maquina();
-//
-//        Push push3 = new Push(3, machine);
-//        assertEquals("PUSH 3", push3.toString());
-//        Push push64 = new Push(64, machine);
-//        assertEquals("PUSH 64", push64.toString());
-//        Push push20 = new Push(20, machine);
-//        assertEquals("PUSH 20", push20.toString());
-//
-//        push3.execute();
-//        push64.execute();
-//        push20.execute();
-//
-//        Modulus mod4 = new Modulus(machine);
-//        assertEquals("MOD", mod4.toString());
-//        mod4.execute();
-//
-//        assertEquals(2, machine.getInstructionStack().size());
-//        String expected = "(MAQ) Instruction stack:" + System.lineSeparator() +
-//                "\t0: 4" + System.lineSeparator() +
-//                "\t1: 3" + System.lineSeparator();
-//        assertEquals(expected, machine.getInstructionStack().toString());
-//
-//        Modulus mod3 = new Modulus(machine);
-//        assertEquals("MOD", mod3.toString());
-//        mod3.execute();
-//
-//        assertEquals(1, machine.getInstructionStack().size());
-//        expected = "(MAQ) Instruction stack:" + System.lineSeparator() +
-//                "\t0: 3" + System.lineSeparator();
-//        assertEquals(expected, machine.getInstructionStack().toString());
-//    }
-//}
