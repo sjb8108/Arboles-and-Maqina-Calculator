@@ -105,27 +105,38 @@ public class Maquina {
         if (stdin) {
             System.out.print("🤖 ");
         }
+        else{
+            while (maqIn.hasNextLine()){
+                String[] fields = maqIn.nextLine().strip().split("\\s+");
+                String instruction;
+                if (fields.length == 2){
+                    instruction = fields[0] + " " + fields[1];
+                    this.instructionList.add(instruction);
 
-        // TODO
-
-        System.out.println("(MAQ) Machine instructions:");
-        while (maqIn.hasNextLine()){
-            String[] fields = maqIn.nextLine().strip().split("\\s+");
-            String instruction;
-            if (fields.length == 2){
-                instruction = fields[0] + " " + fields[1];
-                this.instructionList.add(instruction);
-
+                }
+                else{
+                    instruction = fields[0];
+                    this.instructionList.add(instruction);
+                }
             }
-            else{
-                instruction = fields[0];
-                this.instructionList.add(instruction);
+            for (int i = 0; i < instructionList.size(); i++){
+                String instruction = this.instructionList.get(i).toString().split(" ")[0];
+                if ((instruction.equals(ADD)) || instruction.equals(DIVIDE) ||
+                        instruction.equals(LOAD) || instruction.equals(MODULUS) ||
+                        instruction.equals(MULTIPLY) || instruction.equals(NEGATE)
+                        || instruction.equals(PRINT) || instruction.equals(PRINT)
+                        || instruction.equals(PUSH) || instruction.equals(SQUARE_ROOT)
+                        || instruction.equals(STORE) || instruction.equals(SUBTRACT)){
+                }
+                else{
+                    Errors.report(Errors.Type.ILLEGAL_INSTRUCTION, instruction);
+                }
+            }
+            System.out.println("(MAQ) Machine instructions:");
+            for (int i = 0; i < this.instructionList.size(); i++){
+                System.out.println(this.instructionList.get(i));
             }
         }
-        for (int i = 0; i < this.instructionList.size(); i++){
-            System.out.println(this.instructionList.get(i));
-        }
-
     }
 
     /**
@@ -148,6 +159,9 @@ public class Maquina {
                 }
                 else{
                     String variable = instruction[1];
+                    if (this.symbolTable.has(variable) == false){
+                        Errors.report(Errors.Type.UNINITIALIZED, variable);
+                    }
                     new Load(variable, this).execute();
                 }
             }
@@ -157,6 +171,9 @@ public class Maquina {
                     new Add(this).execute();
                 }
                 else if (command.equals(DIVIDE)) {
+                    if ((int) this.instructionStack.top() == 0){
+                        Errors.report(Errors.Type.DIVIDE_BY_ZERO);
+                    }
                     new Divide(this).execute();
                 }
                 else if (command.equals(MODULUS)) {
@@ -169,12 +186,15 @@ public class Maquina {
                     new Negate(this).execute();
                 }
                 else if (command.equals(SQUARE_ROOT)) {
+                    if ((int) this.instructionStack.top() < 0){
+                        Errors.report(Errors.Type.NEGATIVE_SQUARE_ROOT);
+                    }
                     new SquareRoot(this).execute();
                 }
                 else if (command.equals(SUBTRACT)) {
                     new Subtract(this).execute();
                 }
-                else {
+                else if (command.equals(PRINT)){
                     new Print(this).execute();
                 }
             }

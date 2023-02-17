@@ -42,6 +42,7 @@ public class Errors {
      * @param type The kind of error, printed first
      */
     public static void report(Type type) {
+
         report(type, null);
     }
 
