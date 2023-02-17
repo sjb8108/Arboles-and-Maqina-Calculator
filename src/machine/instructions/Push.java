@@ -32,7 +32,10 @@ public class Push implements Instruction {
 
         this.stack.push(this.value);
     }
-
+    /**
+     * Shows of what the instruction did
+     * @return a string of what the instruction did
+     */
     @Override
     public String toString() {
 
