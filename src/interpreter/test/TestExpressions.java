@@ -89,50 +89,50 @@ public class TestExpressions {
                 "LOAD y" + System.lineSeparator();
         assertEquals(expected, outContent.toString());
     }
+
+    @Test
+    @Order(3)
+    public void testUnaryOperation() {
+        UnaryOperation neg1 = new UnaryOperation("!", new Constant(10));
+        UnaryOperation neg2 = new UnaryOperation("!", new Constant(-20));
+        UnaryOperation sq3 = new UnaryOperation("$", new Constant(25));
+        UnaryOperation sq4 = new UnaryOperation("$", new Constant(124));
+
+        neg1.emit();
+        assertEquals("!10", outContent.toString());
+        outContent.reset();
+        neg2.emit();
+        assertEquals("!-20", outContent.toString());
+        outContent.reset();
+        sq3.emit();
+        assertEquals("$25", outContent.toString());
+        outContent.reset();
+        sq4.emit();
+        assertEquals("$124", outContent.toString());
+        outContent.reset();
+
+        assertEquals(-10, neg1.evaluate(null));
+        assertEquals(20, neg2.evaluate(null));
+        assertEquals(5, sq3.evaluate(null));
+        assertEquals(11, sq4.evaluate(null));
+
+        PrintWriter out = new PrintWriter(System.out);
+        neg1.compile(out);
+        neg2.compile(out);
+        sq3.compile(out);
+        sq4.compile(out);
+        out.close();
+        String expected = "PUSH 10" + System.lineSeparator() +
+                "NEG" + System.lineSeparator() +
+                "PUSH -20" + System.lineSeparator() +
+                "NEG" + System.lineSeparator() +
+                "PUSH 25" + System.lineSeparator() +
+                "SQRT" + System.lineSeparator() +
+                "PUSH 124" + System.lineSeparator() +
+                "SQRT" + System.lineSeparator();
+        assertEquals(expected, outContent.toString());
+    }
 }
-//    @Test
-//    @Order(3)
-//    public void testUnaryOperation() {
-//        UnaryOperation neg1 = new UnaryOperation("!", new Constant(10));
-//        UnaryOperation neg2 = new UnaryOperation("!", new Constant(-20));
-//        UnaryOperation sq3 = new UnaryOperation("$", new Constant(25));
-//        UnaryOperation sq4 = new UnaryOperation("$", new Constant(124));
-//
-//        neg1.emit();
-//        assertEquals("!10", outContent.toString());
-//        outContent.reset();
-//        neg2.emit();
-//        assertEquals("!-20", outContent.toString());
-//        outContent.reset();
-//        sq3.emit();
-//        assertEquals("$25", outContent.toString());
-//        outContent.reset();
-//        sq4.emit();
-//        assertEquals("$124", outContent.toString());
-//        outContent.reset();
-//
-//        assertEquals(-10, neg1.evaluate(null));
-//        assertEquals(20, neg2.evaluate(null));
-//        assertEquals(5, sq3.evaluate(null));
-//        assertEquals(11, sq4.evaluate(null));
-//
-//        PrintWriter out = new PrintWriter(System.out);
-//        neg1.compile(out);
-//        neg2.compile(out);
-//        sq3.compile(out);
-//        sq4.compile(out);
-//        out.close();
-//        String expected = "PUSH 10" + System.lineSeparator() +
-//                "NEG" + System.lineSeparator() +
-//                "PUSH -20" + System.lineSeparator() +
-//                "NEG" + System.lineSeparator() +
-//                "PUSH 25" + System.lineSeparator() +
-//                "SQRT" + System.lineSeparator() +
-//                "PUSH 124" + System.lineSeparator() +
-//                "SQRT" + System.lineSeparator();
-//        assertEquals(expected, outContent.toString());
-//    }
-//
 //    @Test
 //    @Order(4)
 //    public void testBinaryOperation() {
