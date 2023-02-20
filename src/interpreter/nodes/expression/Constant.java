@@ -12,7 +12,7 @@ public class Constant implements ExpressionNode{
         this.constant = value;
     }
     public void emit(){
-        System.out.print(constant);
+        System.out.print(this.constant);
     }
     public int evaluate(SymbolTable symTable){
         return this.constant;
