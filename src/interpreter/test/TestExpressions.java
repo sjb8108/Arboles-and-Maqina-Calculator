@@ -1,63 +1,65 @@
-//package interpreter.test;
-//
-//import common.SymbolTable;
-//import interpreter.nodes.expression.BinaryOperation;
-//import interpreter.nodes.expression.Constant;
-//import interpreter.nodes.expression.UnaryOperation;
-//import interpreter.nodes.expression.Variable;
-//import org.junit.jupiter.api.*;
-//
-//import java.io.ByteArrayOutputStream;
-//import java.io.PrintStream;
-//import java.io.PrintWriter;
-//
-//import static org.junit.jupiter.api.Assertions.assertEquals;
-//
-///**
-// * A JUnit tester for all the ARB expressions.
-// *
-// * @author RIT CS
-// */
-//@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-//public class TestExpressions {
-//    /** Used to test that expected print's happen */
-//    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-//
-//    @BeforeEach
-//    public void setUpStreams() {
-//        System.setOut(new PrintStream(outContent));
-//    }
-//
-//    @AfterEach
-//    public void restoreStreams() {
-//        System.setOut(System.out);
-//    }
-//
-//    @Test
-//    @Order(1)
-//    public void testConstant() {
-//        Constant c1 = new Constant(10);
-//        Constant c2 = new Constant(20);
-//
-//        c1.emit();
-//        assertEquals("10", outContent.toString());
-//        outContent.reset();
-//        c2.emit();
-//        assertEquals("20", outContent.toString());
-//        outContent.reset();
-//
-//        assertEquals(10, c1.evaluate(null));
-//        assertEquals(20, c2.evaluate(null));
-//
-//        PrintWriter out = new PrintWriter(System.out);
-//        c1.compile(out);
-//        c2.compile(out);
-//        out.close();
-//        String expected = "PUSH 10" + System.lineSeparator() +
-//                "PUSH 20" +  System.lineSeparator();
-//        assertEquals(expected, outContent.toString());
-//    }
-//
+package interpreter.test;
+
+import common.SymbolTable;
+import interpreter.nodes.expression.BinaryOperation;
+import interpreter.nodes.expression.Constant;
+import interpreter.nodes.expression.UnaryOperation;
+import interpreter.nodes.expression.Variable;
+import org.junit.jupiter.api.*;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+/**
+ * A JUnit tester for all the ARB expressions.
+ *
+ * @author RIT CS
+ */
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+public class TestExpressions {
+    /**
+     * Used to test that expected print's happen
+     */
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+
+    @BeforeEach
+    public void setUpStreams() {
+        System.setOut(new PrintStream(outContent));
+    }
+
+    @AfterEach
+    public void restoreStreams() {
+        System.setOut(System.out);
+    }
+
+    @Test
+    @Order(1)
+    public void testConstant() {
+        Constant c1 = new Constant(10);
+        Constant c2 = new Constant(20);
+
+        c1.emit();
+        assertEquals("10", outContent.toString());
+        outContent.reset();
+        c2.emit();
+        assertEquals("20", outContent.toString());
+        outContent.reset();
+
+        assertEquals(10, c1.evaluate(null));
+        assertEquals(20, c2.evaluate(null));
+
+        PrintWriter out = new PrintWriter(System.out);
+        c1.compile(out);
+        c2.compile(out);
+        out.close();
+        String expected = "PUSH 10" + System.lineSeparator() +
+                "PUSH 20" + System.lineSeparator();
+        assertEquals(expected, outContent.toString());
+    }
+}
 //    @Test
 //    @Order(2)
 //    public void testVariable() {
