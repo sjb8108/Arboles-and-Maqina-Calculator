@@ -59,37 +59,37 @@ public class TestExpressions {
                 "PUSH 20" + System.lineSeparator();
         assertEquals(expected, outContent.toString());
     }
+
+    @Test
+    @Order(2)
+    public void testVariable() {
+        SymbolTable symTbl = new SymbolTable();
+        symTbl.set("x", 10);
+        symTbl.set("y", 20);
+        symTbl.set("z", 30);
+
+        Variable v1 = new Variable("x");
+        Variable v2 = new Variable("y");
+
+        v1.emit();
+        assertEquals("x", outContent.toString());
+        outContent.reset();
+        v2.emit();
+        assertEquals("y", outContent.toString());
+        outContent.reset();
+
+        assertEquals(10, v1.evaluate(symTbl));
+        assertEquals(20, v2.evaluate(symTbl));
+
+        PrintWriter out = new PrintWriter(System.out);
+        v1.compile(out);
+        v2.compile(out);
+        out.close();
+        String expected = "LOAD x" + System.lineSeparator() +
+                "LOAD y" + System.lineSeparator();
+        assertEquals(expected, outContent.toString());
+    }
 }
-//    @Test
-//    @Order(2)
-//    public void testVariable() {
-//        SymbolTable symTbl = new SymbolTable();
-//        symTbl.set("x", 10);
-//        symTbl.set("y", 20);
-//        symTbl.set("z", 30);
-//
-//        Variable v1 = new Variable("x");
-//        Variable v2 = new Variable("y");
-//
-//        v1.emit();
-//        assertEquals("x", outContent.toString());
-//        outContent.reset();
-//        v2.emit();
-//        assertEquals("y", outContent.toString());
-//        outContent.reset();
-//
-//        assertEquals(10, v1.evaluate(symTbl));
-//        assertEquals(20, v2.evaluate(symTbl));
-//
-//        PrintWriter out = new PrintWriter(System.out);
-//        v1.compile(out);
-//        v2.compile(out);
-//        out.close();
-//        String expected = "LOAD x" + System.lineSeparator() +
-//                "LOAD y" +  System.lineSeparator();
-//        assertEquals(expected, outContent.toString());
-//    }
-//
 //    @Test
 //    @Order(3)
 //    public void testUnaryOperation() {

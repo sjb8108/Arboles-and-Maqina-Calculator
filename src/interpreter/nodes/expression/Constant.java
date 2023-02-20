@@ -18,6 +18,6 @@ public class Constant implements ExpressionNode{
         return this.constant;
     }
     public void compile(PrintWriter out){
-        out.println(new Push(constant, new Maquina()));
+        out.println(new Push(this.constant, new Maquina()));
     }
 }
