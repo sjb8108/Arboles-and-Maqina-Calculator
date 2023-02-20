@@ -28,11 +28,11 @@ public class UnaryOperation implements ExpressionNode{
     }
     public void compile(PrintWriter out){
         if (this.operation.equals("!")){
-            theChild.compile(out);
+            this.theChild.compile(out);
             out.println(new Negate(new Maquina()));
         }
         else{
-            theChild.compile(out);
+            this.theChild.compile(out);
             out.println(new SquareRoot(new Maquina()));
         }
     }
