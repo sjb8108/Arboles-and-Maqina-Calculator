@@ -65,7 +65,7 @@ public class Arboles {
 
     /**
      * Execute the ARB program of ActionNode's to standard output using execute().
-     * In order to execute the ActioNodes, a local SymbolTable must be created here
+     * In order to execute the ActionNodes, a local SymbolTable must be created here
      * for use.
      */
     public void interpretProgram() {

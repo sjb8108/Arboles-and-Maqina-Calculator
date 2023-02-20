@@ -103,7 +103,14 @@ public class Maquina {
      */
     public void assemble(Scanner maqIn, boolean stdin) {
         if (stdin) {
-            System.out.print("🤖 ");
+            System.out.println("🤖 ");
+            String instruction = "Placeholder";
+            Scanner sc= new Scanner(System.in);
+            while (!(instruction.equals(EOF))){
+                System.out.println("Enter the Instruction");
+                instruction = sc.nextLine();
+                this.instructionList.add(instruction);
+            }
         }
         else{
             while (maqIn.hasNextLine()){
