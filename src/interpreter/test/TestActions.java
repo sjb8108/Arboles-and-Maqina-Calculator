@@ -70,37 +70,37 @@ public class TestActions {
                 "PRINT" + System.lineSeparator();
         assertEquals(expected, outContent.toString());
     }
+
+    @Test
+    @Order(2)
+    public void testAction() {
+        SymbolTable symTbl = new SymbolTable();
+
+        Assignment a1 = new Assignment("x", new Constant(10));
+        Assignment a2 = new Assignment("y", new Variable("x"));
+
+        a1.emit();
+        assertEquals("x = 10", outContent.toString());
+        outContent.reset();
+        a2.emit();
+        assertEquals("y = x", outContent.toString());
+        outContent.reset();
+
+        a1.execute(symTbl);
+        assertEquals(10, symTbl.get("x"));
+        outContent.reset();
+        a2.execute(symTbl);
+        assertEquals(10, symTbl.get("y"));
+        outContent.reset();
+
+        PrintWriter out = new PrintWriter(System.out);
+        a1.compile(out);
+        a2.compile(out);
+        out.close();
+        String expected = "PUSH 10" + System.lineSeparator() +
+                "STORE x" + System.lineSeparator() +
+                "LOAD x" + System.lineSeparator() +
+                "STORE y"+ System.lineSeparator();
+        assertEquals(expected, outContent.toString());
+    }
 }
-//    @Test
-//    @Order(2)
-//    public void testAction() {
-//        SymbolTable symTbl = new SymbolTable();
-//
-//        Assignment a1 = new Assignment("x", new Constant(10));
-//        Assignment a2 = new Assignment("y", new Variable("x"));
-//
-//        a1.emit();
-//        assertEquals("x = 10", outContent.toString());
-//        outContent.reset();
-//        a2.emit();
-//        assertEquals("y = x", outContent.toString());
-//        outContent.reset();
-//
-//        a1.execute(symTbl);
-//        assertEquals(10, symTbl.get("x"));
-//        outContent.reset();
-//        a2.execute(symTbl);
-//        assertEquals(10, symTbl.get("y"));
-//        outContent.reset();
-//
-//        PrintWriter out = new PrintWriter(System.out);
-//        a1.compile(out);
-//        a2.compile(out);
-//        out.close();
-//        String expected = "PUSH 10" + System.lineSeparator() +
-//                "STORE x" + System.lineSeparator() +
-//                "LOAD x" + System.lineSeparator() +
-//                "STORE y"+ System.lineSeparator();
-//        assertEquals(expected, outContent.toString());
-//    }
-//}
