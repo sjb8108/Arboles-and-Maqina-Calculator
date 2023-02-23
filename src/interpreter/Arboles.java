@@ -23,6 +23,7 @@ import java.util.Scanner;
  * compiles into MAQ instructions so that the machine, Maquina, can execute it.
  *
  * @author RIT CS
+ * @author Scott Bullock
  */
 public class Arboles {
     /** the terminating character when reading machine instructions from user (not file) */
@@ -61,6 +62,7 @@ public class Arboles {
                     this.tokenList.add(s);
                 }
             }
+            this.tokenList.remove(this.tokenList.size()-1);
         }
         else{
             System.out.println("(ARB) prefix...");
@@ -73,7 +75,7 @@ public class Arboles {
                 }
             }
         }
-
+        System.out.println(this.tokenList);
     }
 
     /**
@@ -97,6 +99,13 @@ public class Arboles {
         }
     }
 
+    /**
+     * A recursive function that goes through tokens creates expression nodes
+     * of insturction for the arboles and maquina machine to understand
+     * @param token the string that represnts where in
+     * the list of tokens we are at
+     * @return the expression node representing an instruction
+     */
     public ExpressionNode getExpressionNode(String token){
         token = this.tokenList.remove(0);
         if (token.equals(ASSIGN) || token.equals(PRINT)){
