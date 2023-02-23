@@ -75,7 +75,6 @@ public class Arboles {
                 }
             }
         }
-        System.out.println(this.tokenList);
     }
 
     /**
@@ -107,6 +106,9 @@ public class Arboles {
      * @return the expression node representing an instruction
      */
     public ExpressionNode getExpressionNode(String token){
+        if (token == null){
+            Errors.report(Errors.Type.PREMATURE_END);
+        }
         token = this.tokenList.remove(0);
         if (token.equals(ASSIGN) || token.equals(PRINT)){
             ExpressionNode ExpressionNode = null;
@@ -114,30 +116,36 @@ public class Arboles {
         }
         else if (token.equals("+") || token.equals("-") || token.equals("*")
                 || token.equals("/") || token.equals("%")) {
-            try{
-                return new BinaryOperation(token, getExpressionNode(this.tokenList.get(0)),
-                        getExpressionNode(this.tokenList.get(0)));
-            }
-            catch (IndexOutOfBoundsException out){
-                Errors.report(Errors.Type.PREMATURE_END);
-            }
-            return new BinaryOperation(token, getExpressionNode(this.tokenList.get(0)),
-                    getExpressionNode(this.tokenList.get(0)));
+            return new BinaryOperation(token, getExpressionNode(checkEmpty(this.tokenList)),
+                    getExpressionNode(checkEmpty(this.tokenList)));
         }
         else if (token.equals("!") || token.equals("$")) {
-            return new UnaryOperation(token, getExpressionNode(this.tokenList.get(0)));
+            return new UnaryOperation(token, getExpressionNode(checkEmpty(this.tokenList)));
         }
         else if (token.matches("^[a-zA-Z].*") == true) {
             return new Variable(token);
         }
-        else{
-            try {
-                return new Constant(Integer.parseInt(token));
-            }
-            catch (NumberFormatException caught){
-                Errors.report(Errors.Type.ILLEGAL_OPERATOR);
-            }
+        else if (token.matches("-?\\d+(\\.\\d+)?") == true){
             return new Constant(Integer.parseInt(token));
+        }
+        else{
+            Errors.report(Errors.Type.ILLEGAL_OPERATOR, token);
+        }
+        return null;
+    }
+
+    /**
+     * Checks if tokenList is empty
+     * @param tokenList the list of tokens
+     * @returns the first value in the list if not empty
+     * and returns null if empty to throw an error
+     */
+    public String checkEmpty(List tokenList){
+        if (tokenList.size() == 0){
+            return null;
+        }
+        else{
+            return tokenList.get(0).toString();
         }
     }
 
