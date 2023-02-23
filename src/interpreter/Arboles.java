@@ -1,11 +1,19 @@
 package interpreter;
 
 import common.Errors;
+import common.SymbolTable;
+import interpreter.nodes.action.ActionNode;
+import interpreter.nodes.action.Assignment;
+import interpreter.nodes.action.Print;
+import interpreter.nodes.expression.*;
+import machine.Maquina;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -28,7 +36,8 @@ public class Arboles {
     /** the location to generate the compiled ARB program of MAQ instructions */
     private final static String TMP_MAQ_FILE = "tmp/TEMP.maq";
 
-    // TODO
+    private ArrayList<String> tokenList;
+    private ArrayList<ActionNode> actionNodesList;
 
     /**
      * Create a new Arbelos instance.  The result of this method is the tokenization
@@ -39,10 +48,32 @@ public class Arboles {
      *              a terminating ".".
      */
     public Arboles(Scanner in, boolean stdin) {
+        this.tokenList = new ArrayList<String>();
+        this.actionNodesList = new ArrayList<ActionNode>();
         if (stdin) {
             System.out.print("🌳 ");
+            String[] instruction = {"Placeholder"};
+            Scanner sc= new Scanner(System.in);
+            while (!(instruction[0].equals(EOF))){
+                System.out.println("Enter the Instruction");
+                instruction = sc.nextLine().strip().split(" ");
+                for (String s : instruction){
+                    this.tokenList.add(s);
+                }
+            }
         }
-        // TODO
+        else{
+            System.out.println("(ARB) prefix...");
+            while (in.hasNextLine()){
+                String line = in.nextLine();
+                System.out.println(line);
+                String[] lineSplit = line.strip().split(" ");
+                for (String s : lineSplit){
+                    this.tokenList.add(s);
+                }
+            }
+        }
+
     }
 
     /**
@@ -50,9 +81,56 @@ public class Arboles {
      * one per line of ARB input.
      */
     public void buildProgram() {
-        // TODO
+        while (this.tokenList.size() > 0){
+            if (this.tokenList.get(0).equals(ASSIGN)){
+                this.tokenList.remove(0);
+                this.actionNodesList.add(new Assignment(this.tokenList.remove(0),
+                        getExpressionNode(this.tokenList.get(1))));
+            }
+            else if (this.tokenList.get(0).equals(PRINT)) {
+                this.tokenList.remove(0);
+                this.actionNodesList.add(new Print(getExpressionNode(this.tokenList.get(0))));
+            }
+            else{
+                Errors.report(Errors.Type.ILLEGAL_ACTION, this.tokenList.get(0));
+            }
+        }
     }
 
+    public ExpressionNode getExpressionNode(String token){
+        token = this.tokenList.remove(0);
+        if (token.equals(ASSIGN) || token.equals(PRINT)){
+            ExpressionNode ExpressionNode = null;
+            return ExpressionNode;
+        }
+        else if (token.equals("+") || token.equals("-") || token.equals("*")
+                || token.equals("/") || token.equals("%")) {
+            try{
+                return new BinaryOperation(token, getExpressionNode(this.tokenList.get(0)),
+                        getExpressionNode(this.tokenList.get(0)));
+            }
+            catch (IndexOutOfBoundsException out){
+                Errors.report(Errors.Type.PREMATURE_END);
+            }
+            return new BinaryOperation(token, getExpressionNode(this.tokenList.get(0)),
+                    getExpressionNode(this.tokenList.get(0)));
+        }
+        else if (token.equals("!") || token.equals("$")) {
+            return new UnaryOperation(token, getExpressionNode(this.tokenList.get(0)));
+        }
+        else if (token.matches("^[a-zA-Z].*") == true) {
+            return new Variable(token);
+        }
+        else{
+            try {
+                return new Constant(Integer.parseInt(token));
+            }
+            catch (NumberFormatException caught){
+                Errors.report(Errors.Type.ILLEGAL_OPERATOR);
+            }
+            return new Constant(Integer.parseInt(token));
+        }
+    }
 
     /**
      * Displays the entire ARB program of ActionNode's to standard
@@ -60,7 +138,10 @@ public class Arboles {
      */
     public void displayProgram() {
         System.out.println("(ARB) infix...");
-        // TODO
+        for (int i = 0; i < this.actionNodesList.size(); i++){
+            this.actionNodesList.get(i).emit();
+            System.out.print("\n");
+        }
     }
 
     /**
@@ -69,11 +150,13 @@ public class Arboles {
      * for use.
      */
     public void interpretProgram() {
+        SymbolTable symTable = new SymbolTable();
         System.out.println("(ARB) interpreting program...");
-        // TODO
-
+        for (int i = 0; i < this.actionNodesList.size(); i++){
+            this.actionNodesList.get(i).execute(symTable);
+        }
         System.out.println("(ARB) Symbol table:");
-        // TODO
+        System.out.print(symTable);
     }
 
     /**
@@ -85,9 +168,9 @@ public class Arboles {
     public void compileProgram() throws IOException {
         System.out.println("(ARB) compiling program to " + TMP_MAQ_FILE + "...");
         PrintWriter out = new PrintWriter(TMP_MAQ_FILE);
-
-        // TODO
-
+        for (int i = 0; i < this.actionNodesList.size(); i++){
+            this.actionNodesList.get(i).compile(out);
+        }
         out.close();
     }
 
@@ -98,7 +181,11 @@ public class Arboles {
      * @throws FileNotFoundException if the MAQ file cannot be found.
      */
     public void executeProgram() throws FileNotFoundException {
-        // TODO
+        Maquina machine = new Maquina();
+        Scanner maqIn;
+        maqIn = new Scanner(new File(TMP_MAQ_FILE));
+        machine.assemble(maqIn, false);
+        machine.execute();
     }
 
     /**

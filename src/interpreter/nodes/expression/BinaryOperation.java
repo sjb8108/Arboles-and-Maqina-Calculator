@@ -1,5 +1,6 @@
 package interpreter.nodes.expression;
 
+import common.Errors;
 import common.SymbolTable;
 import machine.Maquina;
 import machine.instructions.*;
@@ -10,7 +11,8 @@ public class BinaryOperation implements ExpressionNode{
     private String operation;
     private ExpressionNode theLeftChild;
     private ExpressionNode theRightChild;
-    public BinaryOperation(String operator, ExpressionNode leftChild, ExpressionNode rightChild){
+    public BinaryOperation(String operator, ExpressionNode leftChild,
+                           ExpressionNode rightChild){
         this.operation = operator;
         this.theLeftChild = leftChild;
         this.theRightChild = rightChild;
@@ -24,15 +26,23 @@ public class BinaryOperation implements ExpressionNode{
     }
     public int evaluate(SymbolTable symTable){
         if (this.operation.equals("+")){
-            return this.theLeftChild.evaluate(symTable) + this.theRightChild.evaluate(symTable);
+            return this.theLeftChild.evaluate(symTable) +
+                    this.theRightChild.evaluate(symTable);
         } else if (this.operation.equals("-")) {
-            return this.theLeftChild.evaluate(symTable) - this.theRightChild.evaluate(symTable);
+            return this.theLeftChild.evaluate(symTable) -
+                    this.theRightChild.evaluate(symTable);
         } else if (this.operation.equals("*")) {
-            return this.theLeftChild.evaluate(symTable) * this.theRightChild.evaluate(symTable);
+            return this.theLeftChild.evaluate(symTable) *
+                    this.theRightChild.evaluate(symTable);
         } else if (this.operation.equals("/")) {
-            return this.theLeftChild.evaluate(symTable) / this.theRightChild.evaluate(symTable);
+            if (this.theRightChild.evaluate(symTable) == 0){
+                Errors.report(Errors.Type.DIVIDE_BY_ZERO);
+            }
+            return this.theLeftChild.evaluate(symTable) /
+                    this.theRightChild.evaluate(symTable);
         }else{
-            return this.theLeftChild.evaluate(symTable) % this.theRightChild.evaluate(symTable);
+            return this.theLeftChild.evaluate(symTable) %
+                    this.theRightChild.evaluate(symTable);
         }
     }
     public void compile(PrintWriter out){

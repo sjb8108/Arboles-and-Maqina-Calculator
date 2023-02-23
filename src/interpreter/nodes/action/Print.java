@@ -1,4 +1,5 @@
 package interpreter.nodes.action;
+import common.Errors;
 import common.SymbolTable;
 import interpreter.nodes.expression.ExpressionNode;
 import machine.Maquina;

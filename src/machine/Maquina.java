@@ -115,6 +115,7 @@ public class Maquina {
         else{
             while (maqIn.hasNextLine()){
                 String[] fields = maqIn.nextLine().strip().split("\\s+");
+                fields.toString();
                 String instruction;
                 if (fields.length == 2){
                     instruction = fields[0] + " " + fields[1];
@@ -209,8 +210,8 @@ public class Maquina {
 
         System.out.println("(MAQ) Completed execution!");
         System.out.println("(MAQ) Symbol table:");
-        System.out.println(this.getSymbolTable());
-        System.out.println(this.getInstructionStack());
+        System.out.print(this.getSymbolTable());
+        System.out.print(this.getInstructionStack());
     }
 
     /**

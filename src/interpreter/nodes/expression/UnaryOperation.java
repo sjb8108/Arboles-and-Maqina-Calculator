@@ -1,5 +1,6 @@
 package interpreter.nodes.expression;
 
+import common.Errors;
 import common.SymbolTable;
 import machine.Maquina;
 import machine.instructions.Negate;
@@ -20,9 +21,12 @@ public class UnaryOperation implements ExpressionNode{
     }
     public int evaluate(SymbolTable symTable){
         if (this.operation.equals("!")){
-            return this.theChild.evaluate(symTable) - (2 * this.theChild.evaluate(symTable));
+            return this.theChild.evaluate(symTable)-(2*this.theChild.evaluate(symTable));
         }
         else{
+            if (this.theChild.evaluate(symTable) < 0){
+                Errors.report(Errors.Type.NEGATIVE_SQUARE_ROOT);
+            }
             return (int) Math.sqrt(this.theChild.evaluate(symTable));
         }
     }

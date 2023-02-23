@@ -1,5 +1,6 @@
 package interpreter.nodes.expression;
 
+import common.Errors;
 import common.SymbolTable;
 import machine.Maquina;
 import machine.instructions.Load;
@@ -15,6 +16,9 @@ public class Variable implements ExpressionNode{
         System.out.print(this.variableName);
     }
     public int evaluate(SymbolTable symTable){
+        if (symTable.has(this.variableName) == false){
+            Errors.report(Errors.Type.UNINITIALIZED, this.variableName);
+        }
         return symTable.get(variableName);
     }
     public void compile(PrintWriter out){
